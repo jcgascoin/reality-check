@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Reality Check — Analyse de Pipe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a; --border: rgba(255,255,255,0.1);
+    --text: #eeeef0; --muted: #7b7f99; --accent: #3b55e0; --green: #4a9a2a;
+    --red: #e24b4a; --amber: #d4920a; --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+  .container { width: 100%; max-width: 950px; }
+  
+  header { text-align: center; margin-bottom: 30px; }
+  header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; background: linear-gradient(to right, #fff, var(--muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+  .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+  .input-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+  .input-card label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+  .input-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 14px; color: var(--text); outline: none; }
+
+  .pipe-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
+  .pipe-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px 12px; position: relative; }
+  .pipe-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  
+  .status-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; }
+
+  .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+  .rate-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; font-size: 11px; color: var(--amber); }
+  .rate-card input { background: transparent; border: none; font-family: var(--mono); font-size: 11px; color: var(--amber); width: 30px; text-align: right; outline: none; }
+
+  .legend-box { margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; font-size: 11px; color: var(--muted); display: flex; justify-content: center; gap: 40px; border: 0.5px solid var(--border); }
+  .legend-item b { color: var(--text); font-weight: 600; }
+
+  .tunnel-wrap { margin-top: 30px; width: 100%; }
+  
+  .summary-line { margin: 40px auto 25px auto; width: 100%; max-width: 900px; border: 1px dashed var(--muted); border-radius: 8px; padding: 16px; text-align: center; font-size: 15px; }
+  .summary-line.danger { border-color: var(--red); color: var(--red); }
+  .summary-line.success { border-color: var(--green); color: #7ac94a; }
+
+  .gap-box { border-radius: 16px; padding: 30px; text-align: center; background: var(--surface); border: 1px solid var(--border); }
+  .gap-box.danger { border-top: 4px solid var(--red); }
+  .gap-box.ok { border-top: 4px solid var(--green); }
+  .action-title { font-size: 13px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .main-val { font-size: 26px; font-weight: 600; margin-bottom: 20px; }
+  .action-text { font-size: 15px; color: var(--text); line-height: 1.6; max-width: 650px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); }
+  .highlight { color: #fff; font-weight: 700; background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>The Reality Check</h1>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 5px;">Quelle est la solidité de ton pipe ? Analyse et plan d'action.</p>
+  </header>
+
+  <div class="top-grid">
+    <div class="input-card"><label>Propriétaire du pipe</label><input type="text" id="name" value="Guillaume" oninput="draw()"/></div>
+    <div class="input-card"><label>Objectif (€ HT)</label><input type="number" id="obj" value="150000" oninput="draw()"/></div>
+    <div class="input-card" style="border-color: var(--amber);"><label>Panier Moyen Cible (€)</label><input type="number" id="ref_aov" value="20000" oninput="draw()"/></div>
+  </div>
+
+  <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: 600; letter-spacing: 0.05em;">État actuel des opportunités</div>
+  <div class="pipe-grid">
+    <div class="pipe-card"><div id="dot0" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R0 (LEADS)</label><input type="number" id="n0" value="15" oninput="draw()"/><input type="number" id="v0" value="300000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot1" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R1 (QUALIF)</label><input type="number" id="n1" value="8" oninput="draw()"/><input type="number" id="v1" value="160000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot2" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R2 (SDR)</label><input type="number" id="n2" value="5" oninput="draw()"/><input type="number" id="v2" value="100000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot3" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R3 (DEMO)</label><input type="number" id="n3" value="3" oninput="draw()"/><input type="number" id="v3" value="60000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot4" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R4 (OFFRE)</label><input type="number" id="n4" value="2" oninput="draw()"/><input type="number" id="v4" value="40000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dotW" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">WON (SIGNÉ)</label><input type="number" id="nW" value="1" oninput="draw()"/><input type="number" id="vW" value="20000" oninput="draw()"/></div>
+  </div>
+
+  <div class="rates-row">
+    <div class="rate-card">R0>R1 <input type="number" id="r01" value="70" oninput="draw()"/>%</div>
+    <div class="rate-card">R1>R2 <input type="number" id="r12" value="65" oninput="draw()"/>%</div>
+    <div class="rate-card">R2>R3 <input type="number" id="r23" value="65" oninput="draw()"/>%</div>
+    <div class="rate-card">R3>R4 <input type="number" id="r34" value="60" oninput="draw()"/>%</div>
+    <div class="rate-card">R4>W <input type="number" id="r4w" value="55" oninput="draw()"/>%</div>
+  </div>
+
+  <div class="legend-box">
+    <div class="legend-item">📈 <b>Actuel :</b> État réel de ton tunnel aujourd'hui.</div>
+    <div class="legend-item">🎯 <b>Cible :</b> Besoins théoriques pour sécuriser l'objectif.</div>
+  </div>
+
+  <div class="tunnel-wrap">
+    <svg id="svg" viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <div id="summary-line" class="summary-line"></div>
+
+  <div id="gap-box" class="gap-box">
+    <div class="action-title">Diagnostic & Plan d'action</div>
+    <div id="gap-main" class="main-val"></div>
+    <div id="gap-sub" class="action-text"></div>
+  </div>
+</div>
+
+<script>
+function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function fmt(n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; }
+
+function draw() {
+  const name = document.getElementById('name').value;
+  const obj = v('obj'), refAov = v('ref_aov'), t = [v('r01')/100, v('r12')/100, v('r23')/100, v('r34')/100, v('r4w')/100];
+  const nums = [v('n0'), v('n1'), v('n2'), v('n3'), v('n4'), v('nW')];
+  const vals = [v('v0'), v('v1'), v('v2'), v('v3'), v('v4'), v('vW')];
+
+  const wonTarget = refAov > 0 ? obj / refAov : 0;
+  const ideal = [0,0,0,0,0, wonTarget];
+  ideal[4] = ideal[5] / (t[4] || 1);
+  ideal[3] = ideal[4] / (t[3] || 1);
+  ideal[2] = ideal[3] / (t[2] || 1);
+  ideal[1] = ideal[2] / (t[1] || 1);
+  ideal[0] = ideal[1] / (t[0] || 1);
+
+  const stages = ['0','1','2','3','4','W'];
+  stages.forEach((s, i) => {
+    const ratio = nums[i] / (ideal[i] || 1);
+    const dot = document.getElementById('dot'+s);
+    if(ratio >= 1) { dot.style.background = 'var(--green)'; dot.style.boxShadow = '0 0 8px var(--green)'; }
+    else if(ratio >= 0.7) { dot.style.background = 'var(--amber)'; dot.style.boxShadow = '0 0 8px var(--amber)'; }
+    else { dot.style.background = 'var(--red)'; dot.style.boxShadow = '0 0 8px var(--red)'; }
+  });
+
+  const p = [t[0]*t[1]*t[2]*t[3]*t[4], t[1]*t[2]*t[3]*t[4], t[2]*t[3]*t[4], t[3]*t[4], t[4], 1];
+  const totalProjete = vals.reduce((acc, val, i) => acc + (val * (p[i] || 0)), 0);
+  const pct = obj > 0 ? Math.round((totalProjete / obj) * 100) : 0;
+
+  const W = 750, maxW = 500, minW = 150, slotH = 40, arrowH = 15, topY = 15;
+  const colors = ['#1a2fd4','#2235c8','#2c44d0','#3655d8','#4a6ae0','#2e6b10'];
+  let html = `<rect width="750" height="380" fill="#0f1117"/>`;
+  for(let i=0; i<6; i++) {
+    const wC = maxW - (maxW-minW)*(i/5), wN = i<5 ? maxW - (maxW-minW)*((i+1)/5) : wC;
+    const xC = (W-wC)/2, xN = (W-wN)/2, y = topY + i*(slotH+arrowH);
+    html += `<polygon points="${xC},${y} ${xC+wC},${y} ${xN+wN},${y+slotH} ${xN},${y+slotH}" fill="${colors[i]}" opacity="0.8"/>`;
+    html += `<text x="${W/2}" y="${y+slotH/2+4}" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="600" fill="white">ACTUEL : ${nums[i]} | CIBLE : ${Math.ceil(ideal[i])} deals</text>`;
+  }
+  document.getElementById('svg').innerHTML = html;
+
+  const summary = document.getElementById('summary-line');
+  summary.className = `summary-line ${pct >= 100 ? 'success' : 'danger'}`;
+  summary.innerHTML = `Objectif : <strong>${fmt(obj)}</strong> &nbsp;·&nbsp; Atterrissage projeté : <strong>${fmt(totalProjete)}</strong> &nbsp;·&nbsp; Couverture : <strong>${pct}%</strong>`;
+
+  const box = document.getElementById('gap-box');
+  const gap = obj - totalProjete;
+  if(gap <= 0) {
+    box.className = "gap-box ok";
+    document.getElementById('gap-main').style.color = "var(--green)";
+    document.getElementById('gap-main').textContent = "Pipeline en bonne santé ✓";
+    document.getElementById('gap-sub').innerHTML = `${name}, ton pipeline actuel est suffisant pour atteindre l'objectif. <br>Maintiens l'effort sur le closing.`;
+  } else {
+    box.className = "gap-box danger";
+    const r0Needs = Math.ceil(gap / (refAov * p[0]));
+    document.getElementById('gap-main').style.color = "var(--red)";
+    document.getElementById('gap-main').innerHTML = `Écart de performance : ${fmt(gap)}`;
+    document.getElementById('gap-sub').innerHTML = `Avec un panier moyen cible de <span class="highlight">${fmt(refAov)}</span>, la trajectoire est insuffisante. <br><br>Action requise : Générer <span style="font-size:22px; color:white; font-weight:700;">${r0Needs} nouveaux R0</span> pour sécuriser l'atterrissage.`;
+  }
+}
+draw();
+</script>
+</body>
+</html>
