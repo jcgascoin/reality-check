@@ -8,47 +8,47 @@
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a; --border: rgba(255,255,255,0.1);
-    --text: #eeeef0; --muted: #7b7f99; --accent: #3b55e0; --green: #4a9a2a;
-    --red: #e24b4a; --amber: #d4920a; --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+    --bg: #f0f4ff; --surface: #ffffff; --surface2: #eef2ff; --border: rgba(100,80,255,0.15);
+    --text: #1a1440; --muted: #7b6fa0; --accent: #6c47ff; --green: #22a869;
+    --red: #e53935; --amber: #f59e0b; --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
   }
   body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
   .container { width: 100%; max-width: 950px; }
-  
+
   header { text-align: center; margin-bottom: 30px; }
-  header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; background: linear-gradient(to right, #fff, var(--muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #6c47ff, #f472b6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
   .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-  .input-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-  .input-card label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+  .input-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: 0 2px 12px rgba(108,71,255,0.07); }
+  .input-card label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
   .input-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 14px; color: var(--text); outline: none; }
 
   .pipe-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
-  .pipe-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px 12px; position: relative; }
-  .pipe-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-  
+  .pipe-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 15px 12px; position: relative; box-shadow: 0 2px 10px rgba(108,71,255,0.06); }
+  .pipe-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 6px; border-bottom: 1px solid rgba(108,71,255,0.1); }
+
   .status-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; }
 
   .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-  .rate-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; font-size: 11px; color: var(--amber); }
-  .rate-card input { background: transparent; border: none; font-family: var(--mono); font-size: 11px; color: var(--amber); width: 30px; text-align: right; outline: none; }
+  .rate-card { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px; text-align: center; font-size: 11px; color: #7c3aed; font-weight: 600; }
+  .rate-card input { background: transparent; border: none; font-family: var(--mono); font-size: 11px; color: #7c3aed; width: 30px; text-align: right; outline: none; font-weight: 600; }
 
-  .legend-box { margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; font-size: 11px; color: var(--muted); display: flex; justify-content: center; gap: 40px; border: 0.5px solid var(--border); }
-  .legend-item b { color: var(--text); font-weight: 600; }
+  .legend-box { margin-top: 15px; padding: 12px; background: rgba(108,71,255,0.05); border-radius: 10px; font-size: 11px; color: var(--muted); display: flex; justify-content: center; gap: 40px; border: 1px solid rgba(108,71,255,0.12); }
+  .legend-item b { color: var(--text); font-weight: 700; }
 
   .tunnel-wrap { margin-top: 30px; width: 100%; }
-  
-  .summary-line { margin: 40px auto 25px auto; width: 100%; max-width: 900px; border: 1px dashed var(--muted); border-radius: 8px; padding: 16px; text-align: center; font-size: 15px; }
-  .summary-line.danger { border-color: var(--red); color: var(--red); }
-  .summary-line.success { border-color: var(--green); color: #7ac94a; }
 
-  .gap-box { border-radius: 16px; padding: 30px; text-align: center; background: var(--surface); border: 1px solid var(--border); }
-  .gap-box.danger { border-top: 4px solid var(--red); }
-  .gap-box.ok { border-top: 4px solid var(--green); }
-  .action-title { font-size: 13px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; }
-  .main-val { font-size: 26px; font-weight: 600; margin-bottom: 20px; }
-  .action-text { font-size: 15px; color: var(--text); line-height: 1.6; max-width: 650px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); }
-  .highlight { color: #fff; font-weight: 700; background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; }
+  .summary-line { margin: 30px auto 20px; width: 100%; max-width: 900px; border: 2px dashed var(--muted); border-radius: 10px; padding: 16px; text-align: center; font-size: 15px; background: var(--surface); }
+  .summary-line.danger { border-color: var(--red); color: var(--red); background: #fff5f5; }
+  .summary-line.success { border-color: var(--green); color: #166534; background: #f0fdf4; }
+
+  .gap-box { border-radius: 18px; padding: 30px; text-align: center; background: var(--surface); border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(108,71,255,0.08); }
+  .gap-box.danger { border-top: 5px solid var(--red); }
+  .gap-box.ok { border-top: 5px solid var(--green); }
+  .action-title { font-size: 13px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.08em; font-weight: 700; }
+  .main-val { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
+  .action-text { font-size: 15px; color: var(--text); line-height: 1.6; max-width: 650px; margin: 0 auto; padding-top: 20px; border-top: 1px solid rgba(108,71,255,0.1); }
+  .highlight { color: #fff; font-weight: 700; background: linear-gradient(135deg, #6c47ff, #a78bfa); padding: 2px 10px; border-radius: 6px; }
 </style>
 </head>
 <body>
@@ -60,18 +60,18 @@
   </header>
 
   <div class="top-grid">
-    <div class="input-card"><label>Propriétaire du pipe</label><input type="text" id="name" value="Ton petit nom" oninput="draw()"/></div>
+    <div class="input-card"><label>Propriétaire du pipe</label><input type="text" id="name" value="Guillaume" oninput="draw()"/></div>
     <div class="input-card"><label>Objectif (€ HT)</label><input type="number" id="obj" value="150000" oninput="draw()"/></div>
-    <div class="input-card" style="border-color: var(--amber);"><label>Panier Moyen Cible (€)</label><input type="number" id="ref_aov" value="20000" oninput="draw()"/></div>
+    <div class="input-card" style="border-color: #f59e0b; border-width: 2px;"><label>Panier Moyen Cible (€)</label><input type="number" id="ref_aov" value="20000" oninput="draw()"/></div>
   </div>
 
-  <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: 600; letter-spacing: 0.05em;">État actuel des opportunités</div>
+  <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: 700; letter-spacing: 0.07em;">État actuel des opportunités</div>
   <div class="pipe-grid">
-    <div class="pipe-card"><div id="dot0" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R0 </label><input type="number" id="n0" value="15" oninput="draw()"/><input type="number" id="v0" value="300000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot1" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R1 </label><input type="number" id="n1" value="8" oninput="draw()"/><input type="number" id="v1" value="160000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot2" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R2 </label><input type="number" id="n2" value="5" oninput="draw()"/><input type="number" id="v2" value="100000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot3" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R3 </label><input type="number" id="n3" value="3" oninput="draw()"/><input type="number" id="v3" value="60000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot4" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R4 </label><input type="number" id="n4" value="2" oninput="draw()"/><input type="number" id="v4" value="40000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot0" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R0 (LEADS)</label><input type="number" id="n0" value="15" oninput="draw()"/><input type="number" id="v0" value="300000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot1" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R1 (QUALIF)</label><input type="number" id="n1" value="8" oninput="draw()"/><input type="number" id="v1" value="160000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot2" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R2 (SDR)</label><input type="number" id="n2" value="5" oninput="draw()"/><input type="number" id="v2" value="100000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot3" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R3 (DEMO)</label><input type="number" id="n3" value="3" oninput="draw()"/><input type="number" id="v3" value="60000" oninput="draw()"/></div>
+    <div class="pipe-card"><div id="dot4" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R4 (OFFRE)</label><input type="number" id="n4" value="2" oninput="draw()"/><input type="number" id="v4" value="40000" oninput="draw()"/></div>
     <div class="pipe-card"><div id="dotW" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">WON (SIGNÉ)</label><input type="number" id="nW" value="1" oninput="draw()"/><input type="number" id="vW" value="20000" oninput="draw()"/></div>
   </div>
 
@@ -123,23 +123,24 @@ function draw() {
   stages.forEach((s, i) => {
     const ratio = nums[i] / (ideal[i] || 1);
     const dot = document.getElementById('dot'+s);
-    if(ratio >= 1) { dot.style.background = 'var(--green)'; dot.style.boxShadow = '0 0 8px var(--green)'; }
-    else if(ratio >= 0.7) { dot.style.background = 'var(--amber)'; dot.style.boxShadow = '0 0 8px var(--amber)'; }
-    else { dot.style.background = 'var(--red)'; dot.style.boxShadow = '0 0 8px var(--red)'; }
+    if(ratio >= 1) { dot.style.background = '#22a869'; dot.style.boxShadow = '0 0 8px #22a869'; }
+    else if(ratio >= 0.7) { dot.style.background = '#f59e0b'; dot.style.boxShadow = '0 0 8px #f59e0b'; }
+    else { dot.style.background = '#e53935'; dot.style.boxShadow = '0 0 8px #e53935'; }
   });
 
   const p = [t[0]*t[1]*t[2]*t[3]*t[4], t[1]*t[2]*t[3]*t[4], t[2]*t[3]*t[4], t[3]*t[4], t[4], 1];
   const totalProjete = vals.reduce((acc, val, i) => acc + (val * (p[i] || 0)), 0);
   const pct = obj > 0 ? Math.round((totalProjete / obj) * 100) : 0;
 
-  const W = 750, maxW = 500, minW = 150, slotH = 40, arrowH = 15, topY = 15;
-  const colors = ['#1a2fd4','#2235c8','#2c44d0','#3655d8','#4a6ae0','#2e6b10'];
-  let html = `<rect width="750" height="380" fill="#0f1117"/>`;
+  const W = 750, maxW = 500, minW = 130, slotH = 42, arrowH = 14, topY = 10;
+  const colors = ['#6c47ff','#a855f7','#f472b6','#f59e0b','#3b82f6','#10b981'];
+  const textColors = ['#fff','#fff','#fff','#1a1440','#fff','#fff'];
+  let html = `<rect width="750" height="380" fill="#f0f4ff" rx="12"/>`;
   for(let i=0; i<6; i++) {
     const wC = maxW - (maxW-minW)*(i/5), wN = i<5 ? maxW - (maxW-minW)*((i+1)/5) : wC;
     const xC = (W-wC)/2, xN = (W-wN)/2, y = topY + i*(slotH+arrowH);
-    html += `<polygon points="${xC},${y} ${xC+wC},${y} ${xN+wN},${y+slotH} ${xN},${y+slotH}" fill="${colors[i]}" opacity="0.8"/>`;
-    html += `<text x="${W/2}" y="${y+slotH/2+4}" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="600" fill="white">ACTUEL : ${nums[i]} | CIBLE : ${Math.ceil(ideal[i])} deals</text>`;
+    html += `<polygon points="${xC},${y} ${xC+wC},${y} ${xN+wN},${y+slotH} ${xN},${y+slotH}" fill="${colors[i]}" opacity="0.92"/>`;
+    html += `<text x="${W/2}" y="${y+slotH/2+5}" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="${textColors[i]}">ACTUEL : ${nums[i]} | CIBLE : ${Math.ceil(ideal[i])} deals</text>`;
   }
   document.getElementById('svg').innerHTML = html;
 
@@ -159,7 +160,7 @@ function draw() {
     const r0Needs = Math.ceil(gap / (refAov * p[0]));
     document.getElementById('gap-main').style.color = "var(--red)";
     document.getElementById('gap-main').innerHTML = `Écart de performance : ${fmt(gap)}`;
-    document.getElementById('gap-sub').innerHTML = `Avec un panier moyen cible de <span class="highlight">${fmt(refAov)}</span>, la trajectoire est insuffisante. <br><br>Action requise : Générer <span style="font-size:22px; color:white; font-weight:700;">${r0Needs} nouveaux R0</span> pour sécuriser l'atterrissage.`;
+    document.getElementById('gap-sub').innerHTML = `Avec un panier moyen cible de <span class="highlight">${fmt(refAov)}</span>, la trajectoire est insuffisante. <br><br>Action requise : Générer <span style="font-size:22px; color:#6c47ff; font-weight:700;">${r0Needs} nouveaux R0</span> pour sécuriser l'atterrissage.`;
   }
 }
 draw();
