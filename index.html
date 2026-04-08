@@ -1,211 +1,165 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Reality Check — Analyse de Pipe</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #f0f4ff; --surface: #ffffff; --surface2: #eef2ff; --border: rgba(100,80,255,0.15);
-    --text: #1a1440; --muted: #7b6fa0; --accent: #6c47ff; --green: #22a869;
-    --red: #e53935; --amber: #f59e0b; --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
-  }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
-  .container { width: 100%; max-width: 950px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Reality Check — Pilotage Serein</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono&display=swap');
+        :root {
+            --bg: #f4f7ff; --card: #ffffff; --text: #1a1440; --muted: #7b6fa0;
+            --accent: #6c47ff; --border: rgba(108,71,255,0.1);
+        }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); padding: 30px 15px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 1050px; }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { font-size: 32px; margin: 0; background: linear-gradient(135deg, #6c47ff, #f472b6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .input-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .input-card label { display: block; font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; margin-bottom: 5px; }
+        .input-card input { width: 100%; border: none; font-family: 'DM Mono'; font-size: 16px; outline: none; color: var(--text); font-weight: 600; }
 
-  header { text-align: center; margin-bottom: 30px; }
-  header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #6c47ff, #f472b6, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .pipe-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 20px; }
+        .pipe-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 12px; position: relative; }
+        .pipe-card label { font-size: 11px; font-weight: 800; color: var(--muted); display: block; margin-bottom: 8px; }
+        .pipe-card input { width: 100%; border: none; border-bottom: 1px solid #f0f0f0; font-family: 'DM Mono'; font-size: 13px; outline: none; margin-bottom: 8px; padding-bottom: 3px; }
+        .pipe-card input:last-child { margin-bottom: 0; border-bottom: none; font-weight: 700; color: var(--accent); }
+        
+        .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 25px; }
+        .rate-card { background: #eeebff; border-radius: 8px; padding: 8px; text-align: center; font-size: 11px; color: var(--accent); font-weight: 700; }
+        .rate-card input { background: transparent; border: none; font-family: 'DM Mono'; width: 35px; text-align: center; color: var(--accent); font-weight: 700; outline: none; }
 
-  .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-  .input-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 14px; padding: 12px; box-shadow: 0 2px 12px rgba(108,71,255,0.07); }
-  .input-card label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
-  .input-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 14px; color: var(--text); outline: none; }
+        .tunnel-container { background: #fff; border-radius: 24px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid var(--border); margin-bottom: 20px; }
+        svg { width: 100%; height: auto; display: block; }
 
-  .pipe-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
-  .pipe-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 15px 12px; position: relative; box-shadow: 0 2px 10px rgba(108,71,255,0.06); }
-  .pipe-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 6px; border-bottom: 1px solid rgba(108,71,255,0.1); }
-
-  .status-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; }
-
-  .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-  .rate-card { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px; text-align: center; font-size: 11px; color: #7c3aed; font-weight: 600; }
-  .rate-card input { background: transparent; border: none; font-family: var(--mono); font-size: 11px; color: #7c3aed; width: 30px; text-align: right; outline: none; font-weight: 600; }
-
-  .legend-box { margin-top: 15px; padding: 12px; background: rgba(108,71,255,0.05); border-radius: 10px; font-size: 11px; color: var(--muted); display: flex; justify-content: center; gap: 40px; border: 1px solid rgba(108,71,255,0.12); }
-  .legend-item b { color: var(--text); font-weight: 700; }
-
-  .tunnel-wrap { margin-top: 30px; width: 100%; }
-
-  .summary-line { margin: 30px auto 20px; width: 100%; max-width: 900px; border: 2px dashed var(--muted); border-radius: 10px; padding: 16px; text-align: center; font-size: 15px; background: var(--surface); }
-  .summary-line.danger { border-color: var(--red); color: var(--red); background: #fff5f5; }
-  .summary-line.success { border-color: var(--green); color: #166534; background: #f0fdf4; }
-
-  .gap-box { border-radius: 18px; padding: 30px; text-align: center; background: var(--surface); border: 1.5px solid var(--border); box-shadow: 0 4px 20px rgba(108,71,255,0.08); }
-  .gap-box.danger { border-top: 5px solid var(--red); }
-  .gap-box.ok { border-top: 5px solid var(--green); }
-  .action-title { font-size: 13px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.08em; font-weight: 700; }
-  .main-val { font-size: 26px; font-weight: 700; margin-bottom: 20px; }
-  .action-text { font-size: 15px; color: var(--text); line-height: 1.6; max-width: 650px; margin: 0 auto; padding-top: 20px; border-top: 1px solid rgba(108,71,255,0.1); }
-  .highlight { color: #fff; font-weight: 700; background: linear-gradient(135deg, #6c47ff, #a78bfa); padding: 2px 10px; border-radius: 6px; }
-</style>
+        .prospecting-engine { 
+            background: #1a1440; color: #fff; border-radius: 20px; padding: 25px; display: grid; grid-template-columns: 1fr 2fr; gap: 30px; align-items: center;
+        }
+        .engine-stat { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 20px; }
+        .engine-stat h2 { font-size: 48px; margin: 0; color: #10b981; } /* Passage au vert pour déstresser */
+        .engine-stat p { font-size: 11px; color: #a5a1ff; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+        .engine-details { font-size: 15px; line-height: 1.6; }
+        .engine-details b { color: #f472b6; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <header>
-    <h1>The Reality Check</h1>
-    <p style="color: var(--muted); font-size: 13px; margin-top: 5px;">Quelle est la solidité de ton pipe ? Analyse et plan d'action.</p>
-  </header>
+    <header>
+        <h1>The Reality Check</h1>
+    </header>
 
-  <div class="top-grid">
-    <div class="input-card"><label>Propriétaire du pipe</label><input type="text" id="name" value="Ton petit nom" oninput="draw()"/></div>
-    <div class="input-card"><label>Objectif (€ HT)</label><input type="number" id="obj" value="150000" oninput="draw()"/></div>
-    <div class="input-card" style="border-color: #f59e0b; border-width: 2px;"><label>Panier Moyen Cible (€)</label><input type="number" id="ref_aov" value="20000" oninput="draw()"/></div>
-  </div>
+    <div class="top-grid">
+        <div class="input-card"><label>Propriétaire</label><input type="text" id="name" value="ton petit nom"></div>
+        <div class="input-card"><label>Objectif (€)</label><input type="number" id="obj" value="150000"></div>
+        <div class="input-card"><label>Panier Moyen (€)</label><input type="number" id="aov" value="20000"></div>
+        <div class="input-card" style="border-left: 4px solid #f472b6;"><label>Semaines restantes</label><input type="number" id="weeks" value="8"></div>
+    </div>
 
-  <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: 700; letter-spacing: 0.07em;">État actuel des opportunités</div>
-  <div class="pipe-grid">
-    <div class="pipe-card"><div id="dot0" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R0 </label><input type="number" id="n0" value="15" oninput="draw()"/><input type="number" id="v0" value="300000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot1" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R1 </label><input type="number" id="n1" value="8" oninput="draw()"/><input type="number" id="v1" value="160000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot2" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R2 </label><input type="number" id="n2" value="5" oninput="draw()"/><input type="number" id="v2" value="100000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot3" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R3 </label><input type="number" id="n3" value="3" oninput="draw()"/><input type="number" id="v3" value="60000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dot4" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">R4 </label><input type="number" id="n4" value="2" oninput="draw()"/><input type="number" id="v4" value="40000" oninput="draw()"/></div>
-    <div class="pipe-card"><div id="dotW" class="status-dot"></div><label style="font-size:8px; color:var(--muted)">WON </label><input type="number" id="nW" value="1" oninput="draw()"/><input type="number" id="vW" value="20000" oninput="draw()"/></div>
-  </div>
+    <div class="pipe-grid" id="pipe-inputs"></div>
+    <div class="rates-row" id="rates-inputs"></div>
 
-  <div class="rates-row">
-    <div class="rate-card">R0>R1 <input type="number" id="r01" value="70" oninput="draw()"/>%</div>
-    <div class="rate-card">R1>R2 <input type="number" id="r12" value="65" oninput="draw()"/>%</div>
-    <div class="rate-card">R2>R3 <input type="number" id="r23" value="65" oninput="draw()"/>%</div>
-    <div class="rate-card">R3>R4 <input type="number" id="r34" value="60" oninput="draw()"/>%</div>
-    <div class="rate-card">R4>W <input type="number" id="r4w" value="55" oninput="draw()"/>%</div>
-  </div>
+    <div class="tunnel-container">
+        <svg id="svg-tunnel" viewBox="0 0 800 550"></svg>
+    </div>
 
-  <div class="legend-box">
-    <div class="legend-item">📈 <b>Actuel :</b> Deals déjà dans le pipe.</div>
-    <div class="legend-item">➕ <b>À générer :</b> Deals supplémentaires pour couvrir le gap.</div>
-  </div>
-
-  <div class="tunnel-wrap">
-    <svg id="svg" viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg"></svg>
-  </div>
-
-  <div id="summary-line" class="summary-line"></div>
-
-  <div id="gap-box" class="gap-box">
-    <div class="action-title">Diagnostic & Plan d'action</div>
-    <div id="gap-main" class="main-val"></div>
-    <div id="gap-sub" class="action-text"></div>
-  </div>
+    <div class="prospecting-engine" id="engine-box">
+        <div class="engine-stat">
+            <h2 id="r0-weekly">0</h2>
+            <p>R0 suggérés / Semaine</p>
+        </div>
+        <div class="engine-details" id="engine-text">
+            On fait le point ? Ton pipe actuel est une excellente base. Pour sécuriser l'objectif avec un matelas confortable, voici la trajectoire idéale...
+        </div>
+    </div>
 </div>
 
 <script>
-function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
-function fmt(n) { return Math.round(n).toLocaleString('fr-FR') + ' €'; }
+    const stageMeta = [
+        { label: 'R0', color: '#6c47ff', txt: '#fff' },
+        { label: 'R1', color: '#a855f7', txt: '#fff' },
+        { label: 'R2', color: '#f472b6', txt: '#fff' },
+        { label: 'R3', color: '#f59e0b', txt: '#1a1440' },
+        { label: 'R4', color: '#3b82f6', txt: '#fff' },
+        { label: 'WON', color: '#10b981', txt: '#fff' }
+    ];
 
-function draw() {
-  const name = document.getElementById('name').value;
-  const obj = v('obj'), refAov = v('ref_aov');
-  const t = [v('r01')/100, v('r12')/100, v('r23')/100, v('r34')/100, v('r4w')/100];
-  const nums = [v('n0'), v('n1'), v('n2'), v('n3'), v('n4'), v('nW')];
-  const vals = [v('v0'), v('v1'), v('v2'), v('v3'), v('v4'), v('vW')];
+    const initData = [ [15, 300000], [8, 160000], [5, 100000], [3, 60000], [2, 40000], [1, 20000] ];
+    const defaultRates = [70, 65, 65, 60, 55];
 
-  // Probabilité cumulée d'atteindre WON depuis chaque stage
-  const p = [
-    t[0]*t[1]*t[2]*t[3]*t[4],
-    t[1]*t[2]*t[3]*t[4],
-    t[2]*t[3]*t[4],
-    t[3]*t[4],
-    t[4],
-    1
-  ];
+    const pipeGrid = document.getElementById('pipe-inputs');
+    stageMeta.forEach((s, i) => {
+        pipeGrid.innerHTML += `
+            <div class="pipe-card">
+                <label>${s.label}</label>
+                <input type="number" id="vol-${i}" value="${initData[i][0]}" class="trigger">
+                <input type="number" id="val-${i}" value="${initData[i][1]}" class="trigger">
+            </div>`;
+    });
 
-  // Atterrissage projeté du pipe existant
-  const totalProjete = vals.reduce((acc, val, i) => acc + (val * (p[i] || 0)), 0);
-  const pct = obj > 0 ? Math.round((totalProjete / obj) * 100) : 0;
+    const ratesRow = document.getElementById('rates-inputs');
+    defaultRates.forEach((r, i) => {
+        ratesRow.innerHTML += `<div class="rate-card">R${i}>R${i+1} <input type="number" id="r-${i}" value="${r}" class="trigger">%</div>`;
+    });
 
-  // Gap résiduel à couvrir (ce que le pipe existant ne couvre pas)
-  const gap = Math.max(0, obj - totalProjete);
+    function calculate() {
+        const obj = parseFloat(document.getElementById('obj').value) || 0;
+        const aov = parseFloat(document.getElementById('aov').value) || 1;
+        const weeks = parseFloat(document.getElementById('weeks').value) || 1;
+        const vals = stageMeta.map((_, i) => parseFloat(document.getElementById(`val-${i}`).value) || 0);
+        const vols = stageMeta.map((_, i) => parseFloat(document.getElementById(`vol-${i}`).value) || 0);
+        const rates = defaultRates.map((_, i) => (parseFloat(document.getElementById(`r-${i}`).value) || 0) / 100);
 
-  // Deals supplémentaires nécessaires PAR STAGE pour couvrir uniquement le gap
-  const gapWonNeeded = refAov > 0 ? gap / refAov : 0;
-  const extraNeeded = [
-    gapWonNeeded / (p[0] || 1),
-    gapWonNeeded / (p[1] || 1),
-    gapWonNeeded / (p[2] || 1),
-    gapWonNeeded / (p[3] || 1),
-    gapWonNeeded / (p[4] || 1),
-    gapWonNeeded
-  ];
+        let probs = [
+            rates[0]*rates[1]*rates[2]*rates[3]*rates[4],
+            rates[1]*rates[2]*rates[3]*rates[4],
+            rates[2]*rates[3]*rates[4],
+            rates[3]*rates[4],
+            rates[4],
+            1
+        ];
 
-  // Dots de statut : vert si le gap est couvert, amber si partiel, rouge si insuffisant
-  const stages = ['0','1','2','3','4','W'];
-  stages.forEach((s, i) => {
-    const dot = document.getElementById('dot' + s);
-    if (gap <= 0) {
-      dot.style.background = '#22a869'; dot.style.boxShadow = '0 0 8px #22a869';
-    } else {
-      const extra = extraNeeded[i];
-      const ratio = nums[i] / (nums[i] + extra);
-      if (ratio >= 1)       { dot.style.background = '#22a869'; dot.style.boxShadow = '0 0 8px #22a869'; }
-      else if (ratio >= 0.5){ dot.style.background = '#f59e0b'; dot.style.boxShadow = '0 0 8px #f59e0b'; }
-      else                  { dot.style.background = '#e53935'; dot.style.boxShadow = '0 0 8px #e53935'; }
+        const totalProjete = vals.reduce((acc, v, i) => acc + (v * probs[i]), 0);
+        const gapFinancier = Math.max(0, obj - totalProjete);
+        
+        const probR0toWon = probs[0];
+        const totalR0Needed = Math.ceil(gapFinancier / (aov * probR0toWon));
+        const weeklyR0 = Math.ceil(totalR0Needed / weeks);
+
+        // Update SVG
+        const svg = document.getElementById('svg-tunnel');
+        const W = 800; const maxW = 660; const minW = 320; const slotH = 75; const gap = 10;
+        let drawHtml = `<rect width="800" height="550" fill="#ffffff" rx="20"/>`;
+
+        stageMeta.forEach((s, i) => {
+            const y = 20 + i * (slotH + gap);
+            const wTop = maxW - (maxW - minW) * (i / 5);
+            const wBottom = i === 5 ? wTop : maxW - (maxW - minW) * ((i+1) / 5);
+            const xTop = (W - wTop) / 2;
+            const xBottom = (W - wBottom) / 2;
+            drawHtml += `<polygon points="${xTop},${y} ${xTop+wTop},${y} ${xBottom+wBottom},${y+slotH} ${xBottom},${y+slotH}" fill="${s.color}" />`;
+            
+            const deficit = Math.ceil(gapFinancier / (aov * probs[i]));
+            const statusText = deficit > 0 ? `DÉFICIT DE STOCK : +${deficit}` : `STOCK SÉCURISÉ ✓`;
+
+            drawHtml += `
+                <text x="${W/2}" y="${y + slotH/2 - 5}" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="500" fill="${s.txt}" opacity="0.8">${s.label} ACTUEL : ${vols[i]} deals</text>
+                <text x="${W/2}" y="${y + slotH/2 + 15}" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="700" fill="${s.txt}">${statusText}</text>
+            `;
+        });
+        svg.innerHTML = drawHtml;
+
+        // Update Engine - Version Adoucie
+        document.getElementById('r0-weekly').innerText = weeklyR0 > 0 ? weeklyR0 : 0;
+        document.getElementById('engine-text').innerHTML = weeklyR0 > 0 ? 
+            `Pour couvrir sereinement les derniers <b>${Math.round(gapFinancier).toLocaleString()} €</b>, l'idéal serait d'aller chercher environ <b>${Math.ceil(gapFinancier/aov)} signature(s)</b> supplémentaire(s). <br>
+            En gardant ton rythme actuel, viser <b>${weeklyR0} nouveau(x) R0 par semaine</b> te permettrait de garder un pipe robuste et d'atteindre ton objectif sans stress.` :
+            `Ton pipe est solide ! Avec ta configuration actuelle, l'objectif est mathématiquement couvert. Focus sur l'accompagnement de tes deals en cours pour transformer l'essai !`;
     }
-  });
 
-  // SVG tunnel
-  const W = 750, maxW = 500, minW = 130, slotH = 42, arrowH = 14, topY = 10;
-  const colors = ['#6c47ff','#a855f7','#f472b6','#f59e0b','#3b82f6','#10b981'];
-  const textColors = ['#fff','#fff','#fff','#1a1440','#fff','#fff'];
-  let html = `<rect width="750" height="380" fill="#f0f4ff" rx="12"/>`;
-
-  for (let i = 0; i < 6; i++) {
-    const wC = maxW - (maxW - minW) * (i / 5);
-    const wN = i < 5 ? maxW - (maxW - minW) * ((i + 1) / 5) : wC;
-    const xC = (W - wC) / 2, xN = (W - wN) / 2;
-    const y = topY + i * (slotH + arrowH);
-
-    html += `<polygon points="${xC},${y} ${xC+wC},${y} ${xN+wN},${y+slotH} ${xN},${y+slotH}" fill="${colors[i]}" opacity="0.92"/>`;
-
-    const extra = Math.ceil(extraNeeded[i]);
-    const current = nums[i];
-
-    if (gap <= 0) {
-      html += `<text x="${W/2}" y="${y+slotH/2+5}" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="${textColors[i]}">ACTUEL : ${current} deals — objectif couvert ✓</text>`;
-    } else {
-      html += `<text x="${W/2}" y="${y+slotH/2+5}" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="${textColors[i]}">ACTUEL : ${current}  |  À GÉNÉRER EN PLUS : +${extra} deals</text>`;
-    }
-  }
-  document.getElementById('svg').innerHTML = html;
-
-  // Summary line
-  const summary = document.getElementById('summary-line');
-  summary.className = `summary-line ${pct >= 100 ? 'success' : 'danger'}`;
-  summary.innerHTML = `Objectif : <strong>${fmt(obj)}</strong> &nbsp;·&nbsp; Projeté (pipe existant) : <strong>${fmt(totalProjete)}</strong> &nbsp;·&nbsp; Couverture : <strong>${pct}%</strong> &nbsp;·&nbsp; Gap résiduel : <strong>${fmt(gap)}</strong>`;
-
-  // Diagnostic
-  const box = document.getElementById('gap-box');
-  if (gap <= 0) {
-    box.className = "gap-box ok";
-    document.getElementById('gap-main').style.color = "#22a869";
-    document.getElementById('gap-main').textContent = "Pipeline en bonne santé ✓";
-    document.getElementById('gap-sub').innerHTML = `${name}, ton pipe existant couvre déjà l'objectif. Maintiens l'effort sur le closing.`;
-  } else {
-    box.className = "gap-box danger";
-    const r0Needs = Math.ceil(extraNeeded[0]);
-    document.getElementById('gap-main').style.color = "#e53935";
-    document.getElementById('gap-main').innerHTML = `Gap résiduel à couvrir : ${fmt(gap)}`;
-    document.getElementById('gap-sub').innerHTML = `
-      Ton pipe existant projette <span class="highlight">${fmt(totalProjete)}</span> soit <strong>${pct}%</strong> de l'objectif.<br><br>
-      Pour couvrir les <span class="highlight">${fmt(gap)}</span> manquants, il faut générer en plus :<br><br>
-      <span style="font-size:22px; color:#6c47ff; font-weight:700;">+${r0Needs} nouveaux R0</span>
-      <span style="font-size:13px; color:var(--muted); display:block; margin-top:6px;">en complément des ${nums[0]} deals déjà présents en R0</span>
-    `;
-  }
-}
-draw();
+    document.querySelectorAll('.trigger, input').forEach(el => el.addEventListener('input', calculate));
+    calculate();
 </script>
 </body>
 </html>
