@@ -1,192 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Intelligence Dashboard</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
-
-        :root {
-            --primary: #1d86e0;
-            --secondary: #3da89c;
-            --accent: #6c47ff;
-            --bg: #f8fafc;
-            --border: #e2e8f0;
-            --won: #10b981;
-            --muted: #64748b;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: #1a1440;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin-bottom: 50px;
-        }
-
-        /* --- UI ELEMENTS --- */
-        h1 { font-size: 42px; font-weight: 700; letter-spacing: -1.5px; text-align: center; margin-bottom: 10px; }
-        h1 span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            margin-top: 20px;
-        }
-
-        /* --- OPPORTUNITIES FINDER STYLE --- */
-        .search-box { display: flex; gap: 10px; margin: 25px 0; background: #fff; padding: 8px; border-radius: 18px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .search-box input { flex: 1; border: none; padding: 12px 20px; font-size: 16px; outline: none; }
-        .mode-toggle { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .m-btn { padding: 12px 25px; border-radius: 12px; border: 1px solid var(--border); background: white; cursor: pointer; font-weight: 700; transition: 0.3s; }
-        .m-btn.active { background: #e0f2fe; border-color: var(--primary); color: var(--primary); }
-        .launch-btn { width: 100%; background: linear-gradient(90deg, #85d5ce, #3da89c); color: white; border: none; padding: 18px; border-radius: 15px; font-weight: 700; font-size: 18px; cursor: pointer; transition: transform 0.2s; }
-        .launch-btn:hover { transform: translateY(-2px); }
-
-        /* --- REALITY CHECK / TUNNEL STYLE --- */
-        .analysis-engine { background: #1a1440; color: #fff; border-radius: 24px; padding: 30px; margin-top: 30px; display: grid; grid-template-columns: 200px 1fr; gap: 30px; align-items: center; }
-        .engine-display { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .engine-display .num { font-size: 58px; font-weight: 700; color: #f59e0b; }
-        .engine-text { font-size: 15px; line-height: 1.6; color: #e0dfff; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; padding: 15px; font-size: 12px; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-        td { padding: 18px 15px; border-bottom: 1px solid var(--border); }
-
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid var(--secondary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; display: none; margin: 20px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .settings-icon { position: fixed; top: 20px; right: 20px; cursor: pointer; font-size: 24px; opacity: 0.4; z-index: 100; }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Reality Check — Analyse de Pipe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --surface2: #22263a; --border: rgba(255,255,255,0.1);
+    --text: #eeeef0; --muted: #7b7f99; --accent: #3b55e0; --green: #4a9a2a;
+    --red: #e24b4a; --amber: #d4920a; --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+  }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+  .container { width: 100%; max-width: 950px; }
+  header { text-align: center; margin-bottom: 30px; }
+  header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; background: linear-gradient(to right, #fff, var(--muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+  .input-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+  .input-card label { display: block; font-size: 9px; color: var(--muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+  .input-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 14px; color: var(--text); outline: none; }
+  .pipe-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 10px; }
+  .pipe-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px 12px; position: relative; }
+  .pipe-card input { width: 100%; background: transparent; border: none; font-family: var(--mono); font-size: 13px; color: var(--text); outline: none; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .status-dot { position: absolute; top: 12px; right: 12px; width: 12px; height: 12px; border-radius: 50%; }
+  .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
+  .rate-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; font-size: 11px; color: var(--amber); }
+  .rate-card input { background: transparent; border: none; font-family: var(--mono); font-size: 11px; color: var(--amber); width: 30px; text-align: right; outline: none; }
+  .legend-box { margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; font-size: 11px; color: var(--muted); display: flex; justify-content: center; gap: 40px; border: 0.5px solid var(--border); }
+  .legend-item b { color: var(--text); font-weight: 600; }
+  .tunnel-wrap { margin-top: 30px; width: 100%; }
+  .summary-line { margin: 40px auto 25px auto; width: 100%; max-width: 900px; border: 1px dashed var(--muted); border-radius: 8px; padding: 16px; text-align: center; font-size: 15px; }
+  .summary-line.danger { border-color: var(--red); color: var(--red); }
+  .summary-line.success { border-color: var(--green); color: #7ac94a; }
+  .gap-box { border-radius: 16px; padding: 30px; text-align: center; background: var(--surface); border: 1px solid var(--border); }
+  .gap-box.danger { border-top: 4px solid var(--red); }
+  .gap-box.ok { border-top: 4px solid var(--green); }
+  .action-title { font-size: 13px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .main-val { font-size: 26px; font-weight: 600; margin-bottom: 20px; }
+  .action-text { font-size: 15px; color: var(--text); line-height: 1.6; max-width: 650px; margin: 0 auto; padding-top: 20px; border-top: 1px solid var(--border); }
+  .highlight { color: #fff; font-weight: 700; background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; }
+</style>
 </head>
 <body>
-
-<div class="settings-icon" onclick="askKey()">⚙️</div>
-
 <div class="container">
-    <h1>Find More <span>Opportunities</span></h1>
-    <div class="card">
-        <div class="mode-toggle">
-            <button class="m-btn active" id="b-prospect" onclick="setMode('prospect')">🎯 Prospect (Lookalikes)</button>
-            <button class="m-btn" id="b-client" onclick="setMode('client')">🏢 Client (Filiales)</button>
-        </div>
-        <div class="search-box">
-            <input type="text" id="target-input" placeholder="Entrez le nom d'une entreprise (ex: LVMH)...">
-        </div>
-        <button class="launch-btn" onclick="startSearch()">🚀 Launch Intelligence Search</button>
-        <div class="loader" id="loader"></div>
-    </div>
-
-    <div id="results-card" class="card" style="display:none;">
-        <h3 id="res-title">Résultats</h3>
-        <table>
-            <thead><tr><th>Entité</th><th>Taille Est.</th><th>LinkedIn</th></tr></thead>
-            <tbody id="table-body"></tbody>
-        </table>
-    </div>
-</div>
-
-<div class="container">
-    <h1>The <span>Reality Check</span></h1>
-    <div class="analysis-engine">
-        <div class="engine-display">
-            <div class="num" id="r0-req">10</div>
-            <div style="font-size: 10px; text-transform: uppercase; color: #a5a1ff;">Nouveaux R0 requis</div>
-        </div>
-        <div class="engine-text">
-            <b>Analyse de trajectoire :</b> Pour atteindre ton objectif, tu dois injecter de nouveaux leads en haut de tunnel. 
-            <i>💡 Astuce : Améliorer ton closing de 5% réduit ton besoin de prospection de 15%.</i>
-        </div>
-    </div>
-</div>
-
-<script>
-    let currentMode = 'prospect';
-    
-    function setMode(m) {
-        currentMode = m;
-        document.getElementById('b-prospect').classList.toggle('active', m === 'prospect');
-        document.getElementById('b-client').classList.toggle('active', m === 'client');
-    }
-
-    function askKey() {
-        const key = prompt("Collez votre clé API Gemini (v1.5 ou 2.0) :");
-        if (key) {
-            localStorage.setItem('gemini_api_key', key.trim());
-            alert("Clé enregistrée !");
-        }
-    }
-
-    async function startSearch() {
-        const target = document.getElementById('target-input').value.trim();
-        const key = localStorage.getItem('gemini_api_key');
-        
-        if (!key) { askKey(); return; }
-        if (!target) return;
-
-        document.getElementById('loader').style.display = 'block';
-        document.getElementById('results-card').style.display = 'none';
-
-        try {
-            // AUTO-DÉTECTION DU MODÈLE DISPONIBLE
-            const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`;
-            const listRes = await fetch(listUrl);
-            const listData = await listRes.json();
-            
-            if (!listRes.ok) throw new Error("Erreur de clé API. Cliquez sur ⚙️");
-
-            const model = listData.models.find(m => m.name.includes('flash')) || listData.models[0];
-            const prompt = `Liste 10 ${currentMode === 'prospect' ? 'concurrents directs' : 'filiales ou entités'} de ${target}. Réponds UNIQUEMENT en JSON : [{"name": "Nom", "size": "Taille", "sector": "Secteur"}]`;
-
-            const genUrl = `https://generativelanguage.googleapis.com/v1beta/${model.name}:generateContent?key=${key}`;
-            const response = await fetch(genUrl, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-            });
-
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message);
-
-            const rawText = data.candidates[0].content.parts[0].text;
-            const cleanJson = JSON.parse(rawText.match(/\[[\s\S]*\]/)[0]);
-
-            displayResults(target, cleanJson);
-        } catch (e) {
-            alert("Erreur : " + e.message);
-        } finally {
-            document.getElementById('loader').style.display = 'none';
-        }
-    }
-
-    function displayResults(target, data) {
-        const body = document.getElementById('table-body');
-        document.getElementById('res-title').innerHTML = `Opportunités détectées pour <b>${target}</b>`;
-        body.innerHTML = '';
-        
-        data.forEach(item => {
-            body.innerHTML += `
-                <tr>
-                    <td><b>${item.name}</b><br><small style="color:gray">${item.sector}</small></td>
-                    <td><span style="background:#f1f5f9; padding:4px 8px; border-radius:6px; font-size:12px;">${item.size}</span></td>
-                    <td><a href="https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(item.name)}" target="_blank" style="text-decoration:none;">🔗 LinkedIn</a></td>
-                </tr>`;
-        });
-        document.getElementById('results-card').style.display = 'block';
-    }
-</script>
-</body>
-</html>
+  <header>
+    <h1>The Reality Check</h1>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 5px;">Quelle est la solidité de ton pipe ? Analyse et plan d'action.</p>
+  </header>
+  <div class="top-grid">
+    <div class="input-card"><label>Propriétaire du pipe</label><input type="text" id="name" value="Guillaume" oninput="draw()"/></div>
+    <div class="input-card"><label>Objectif (€ HT)</label><input type="number" id="obj" value="150000" oninput="draw()"/></div>
+    <div class="input-card" style="border-color: var(--amber);"><label>Panier Moyen Cible (€)</label><input type="number" id="ref_aov" value="20000" oninput="draw()"/></div>
+  </div>
+  <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; margin: 25px 0 10px; font-weight: 600; letter-spacing: 0.05em;">État actuel des opportunités</div>
+  <div class="pipe-grid">
+    <div class="pipe-card"><div id="dot0" class="status-dot"></div><label style="font-size:10px; color:var(--muted)">R0</label><input type="number" id="n0" value="1
