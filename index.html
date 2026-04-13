@@ -64,27 +64,20 @@
             gap: 8px;
         }
 
-        .export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(108, 71, 255, 0.4); }
-
         .section-label { font-size: 14px; font-weight: 700; color: var(--text); margin: 30px 0 15px 5px; display: block; }
-        .section-label span { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 6px; }
 
-        /* Top Grid */
         .top-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 15px; }
         .input-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); position: relative; }
         .input-card label { display: block; font-size: 10px; color: var(--muted); font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
         .input-card input { width: 100%; border: none; font-family: 'DM Mono'; font-size: 18px; outline: none; color: var(--text); font-weight: 600; }
         .input-card.won-highlight { border-bottom: 4px solid var(--won); }
 
-        /* Pipe Cards */
         .pipe-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .pipe-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; position: relative; transition: all 0.3s; }
+        .pipe-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 15px; position: relative; }
         
-        /* Status Glow Dots */
         .status-dot { 
             position: absolute; top: 15px; right: 15px; 
             width: 8px; height: 8px; border-radius: 50%; 
-            transition: all 0.4s ease;
         }
         .dot-green { background: var(--won); box-shadow: 0 0 12px var(--won); }
         .dot-orange { background: var(--orange); box-shadow: 0 0 12px var(--orange); }
@@ -94,16 +87,13 @@
         .pipe-card input { width: 100%; border: none; border-bottom: 1px solid #f0f0f0; font-family: 'DM Mono'; font-size: 14px; outline: none; margin-bottom: 10px; padding-bottom: 4px; color: var(--text); }
         .pipe-card .val-input { font-weight: 700; color: var(--accent); border-bottom: none; }
 
-        /* Rates */
         .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
         .rate-pill { background: #eeebff; border-radius: 10px; padding: 10px; text-align: center; font-size: 12px; color: var(--accent); font-weight: 700; border: 1px solid rgba(108,71,255,0.1); }
         .rate-pill input { background: transparent; border: none; font-family: 'DM Mono'; width: 40px; text-align: center; color: var(--accent); font-weight: 800; outline: none; font-size: 14px; }
 
-        /* Visuals */
         .tunnel-container { background: #fff; border-radius: 24px; padding: 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-top: 30px; }
         svg { width: 100%; height: auto; display: block; }
 
-        /* Engine Analysis */
         .analysis-engine { 
             background: #1a1440; color: #fff; border-radius: 24px; padding: 35px; margin-top: 30px; display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center;
         }
@@ -112,21 +102,11 @@
         .engine-display .label { font-size: 11px; color: #a5a1ff; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 12px; font-weight: 700; }
         .engine-text { font-size: 16px; line-height: 1.7; color: #e0dfff; }
         .engine-text b { color: #f472b6; }
-        .engine-text .highlight-won { color: var(--won); font-weight: 700; }
-        .engine-text .tip { font-size: 13px; color: #a5a1ff; margin-top: 15px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .tip { font-size: 13px; color: #a5a1ff; margin-top: 15px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
 
-        /* Print Mode */
         @media print {
-            @page { margin: 1cm; }
-            body { background: white !important; padding: 0 !important; }
-            .export-btn, .section-label span { display: none !important; }
-            .input-card, .pipe-card, .rate-pill { border: 1px solid #eee !important; box-shadow: none !important; break-inside: avoid; }
-            .tunnel-container { box-shadow: none !important; border: 1px solid #eee !important; }
-            .analysis-engine { background: #f4f7ff !important; color: #1a1440 !important; border: 2px solid var(--accent) !important; break-inside: avoid; }
-            .engine-text, .engine-display .label { color: #1a1440 !important; }
-            .engine-display { border-right: 2px solid var(--accent) !important; }
-            .tip { border-top: 1px solid var(--accent) !important; color: var(--accent) !important; font-weight: 600; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .export-btn { display: none; }
+            body { background: white; }
         }
     </style>
 </head>
@@ -135,20 +115,20 @@
 <div class="container">
     <header>
         <h1>The Reality Check</h1>
-        <button onclick="exportReport()" class="export-btn">💾 Exporter le Rapport</button>
+        <button onclick="window.print()" class="export-btn">💾 Exporter le Rapport</button>
     </header>
 
     <div class="top-grid">
-        <div class="input-card"><label>Propriétaire</label><input type="text" id="user-name" value="Ton petit nom"></div>
+        <div class="input-card"><label>Propriétaire</label><input type="text" id="user-name" value="Ton nom"></div>
         <div class="input-card"><label>Objectif Cible (€)</label><input type="number" id="obj" value="250000"></div>
         <div class="input-card won-highlight"><label>Won à date (€)</label><input type="number" id="won-at-date" value="60000"></div>
         <div class="input-card"><label>Panier Moyen (€)</label><input type="number" id="aov" value="20000"></div>
     </div>
 
-    <label class="section-label">Pipeline Actuel (Stock) :</label>
+    <label class="section-label">État actuel du Pipeline :</label>
     <div class="pipe-grid" id="pipe-inputs"></div>
 
-    <label class="section-label">Taux de conversion : <span>Optimise tes taux pour réduire le besoin de prospection.</span></label>
+    <label class="section-label">Taux de conversion :</label>
     <div class="rates-row" id="rates-inputs"></div>
 
     <div class="tunnel-container">
@@ -160,180 +140,7 @@
             <div class="number" id="r0-gap">0</div>
             <div class="label">Nouveaux R0 requis</div>
         </div>
-        <div class="engine-text" id="engine-msg">
-            Analyse de la trajectoire en cours...
-        </div>
-    </div>
-</div>
-
-<script>
-    const stages = [
-        { id: 'R0', name: 'R0', color: '#6c47ff', txt: '#fff' },
-        { id: 'R1', name: 'R1', color: '#a855f7', txt: '#fff' },
-        { id: 'R2', name: 'R2', color: '#f472b6', txt: '#fff' },
-        { id: 'R3', name: 'R3', color: '#f59e0b', txt: '#1a1440' },
-        { id: 'R4', name: 'R4', color: '#3b82f6', txt: '#fff' }
-    ];
-
-    const defaultVols = [25, 15, 10, 6, 4];
-    const defaultVals = [500000, 300000, 200000, 120000, 80000];
-    const teamRates = [70, 65, 60, 55, 50]; 
-
-    // Init Inputs
-    const pipeGrid = document.getElementById('pipe-inputs');
-    stages.forEach((s, i) => {
-        pipeGrid.innerHTML += `
-            <div class="pipe-card" id="card-${i}">
-                <div class="status-dot" id="dot-${i}"></div>
-                <label>${s.name}</label>
-                <input type="number" id="vol-${i}" value="${defaultVols[i]}" class="trigger">
-                <input type="number" id="val-${i}" value="${defaultVals[i]}" class="trigger val-input">
-            </div>`;
-    });
-
-    const ratesRow = document.getElementById('rates-inputs');
-    teamRates.forEach((r, i) => {
-        ratesRow.innerHTML += `<div class="rate-pill">R${i}>${i < 4 ? 'R'+(i+1) : 'WON'} <input type="number" id="r-${i}" value="${r}" class="trigger">%</div>`;
-    });
-
-    function calculate() {
-        const obj = parseFloat(document.getElementById('obj').value) || 0;
-        const wonAtDate = parseFloat(document.getElementById('won-at-date').value) || 0;
-        const aov = parseFloat(document.getElementById('aov').value) || 1;
-        
-        const vols = stages.map((_, i) => parseFloat(document.getElementById(`vol-${i}`).value) || 0);
-        const vals = stages.map((_, i) => parseFloat(document.getElementById(`val-${i}`).value) || 0);
-        const rates = teamRates.map((_, i) => (parseFloat(document.getElementById(`r-${i}`).value) || 0) / 100);
-
-        let probToWon = new Array(5);
-        probToWon[4] = rates[4];
-        probToWon[3] = rates[3] * rates[4];
-        probToWon[2] = rates[2] * rates[3] * rates[4];
-        probToWon[1] = rates[1] * rates[2] * rates[3] * rates[4];
-        probToWon[0] = rates[0] * rates[1] * rates[2] * rates[3] * rates[4];
-
-        const projectedPipeValue = vals.reduce((acc, v, i) => acc + (v * probToWon[i]), 0);
-        const totalProjected = wonAtDate + projectedPipeValue;
-        const gap = Math.max(0, obj - totalProjected);
-        const neededR0 = Math.ceil(gap / (aov * probToWon[0]));
-
-        // SVG Render
-        const svg = document.getElementById('svg-tunnel');
-        const W = 800; const slotH = 80; const gapSvg = 8;
-        let draw = `<rect width="800" height="480" fill="#ffffff" rx="20"/>`;
-
-        stages.forEach((s, i) => {
-            const y = 20 + i * (slotH + gapSvg);
-            const wTop = 660 - (660 - 320) * (i / 5);
-            const wBottom = 660 - (660 - 320) * ((i+1) / 5);
-            const xTop = (W - wTop) / 2;
-            const xBottom = (W - wBottom) / 2;
-            
-            draw += `<polygon points="${xTop},${y} ${xTop+wTop},${y} ${xBottom+wBottom},${y+slotH} ${xBottom},${y+slotH}" fill="${s.color}" />`;
-            const contrib = Math.round(vals[i] * probToWon[i]);
-            draw += `
-                <text x="${W/2}" y="${y + slotH/2 - 5}" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="500" fill="${s.txt}" opacity="0.8">${vols[i]} deals en ${s.id}</text>
-                <text x="${W/2}" y="${y + slotH/2 + 15}" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="700" fill="${s.txt}">VALEUR PROJETÉE : ${contrib.toLocaleString()} €</text>
-            `;
-
-            const dot = document.getElementById(`dot-${i}`);
-            const stepDeficit = Math.ceil(gap / (aov * probToWon[i]));
-            if (gap <= 0) dot.className = 'status-dot dot-green';
-            else if (stepDeficit > 5) dot.className = 'status-dot dot-red';
-            else dot.className = 'status-dot dot-orange';
-        });
-        svg.innerHTML = draw;
-
-        document.getElementById('r0-gap').innerText = neededR0;
-        const msg = document.getElementById('engine-msg');
-        
-        if (gap > 0) {
-            msg.innerHTML = `
-                Objectif de <b>${obj.toLocaleString()} €</b>. Tu as sécurisé <b>${wonAtDate.toLocaleString()} €</b>. 
-                Ton pipeline actuel projette <b>${Math.round(projectedPipeValue).toLocaleString()} €</b>.<br><br>
-                Pour combler l'écart de <b>${Math.round(gap).toLocaleString()} €</b>, tu dois soit injecter <b>${neededR0} nouveaux R0</b>, soit <b>optimiser ta transformation</b> sur les dossiers en cours.
-                <div class="tip">💡 Conseil : Augmenter ton taux de closing global réduit directement ton besoin de prospection !</div>
-            `;
-        } else {
-            msg.innerHTML = `
-                <span class="highlight-won">Trajectoire sécurisée !</span><br>
-                Avec <b>${wonAtDate.toLocaleString()} €</b> signés et <b>${Math.round(projectedPipeValue).toLocaleString()} €</b> projetés, tu dépasses ta cible.<br>
-                Reste concentré sur l'exécution pour transformer ces probabilités en cash.
-            `;
-        }
-    }
-
-    function exportReport() {
-        const name = document.getElementById('user-name').value || 'Sales';
-        const date = new Date().toLocaleDateString('fr-FR').replace(/\//g, '-');
-        const originalTitle = document.title;
-        document.title = `Reality-Check_${name}_${date}`;
-        window.print();
-        setTimeout(() => { document.title = originalTitle; }, 100);
-    }
-
-    document.querySelectorAll('.trigger, input').forEach(el => el.addEventListener('input', calculate));
-    calculate();
-</script>
-</body>
-</html>        .dot-orange { background: #f59e0b; box-shadow: 0 0 12px #f59e0b; }
-        .dot-red { background: #ef4444; box-shadow: 0 0 12px #ef4444; }
-
-        .pipe-card label { font-size: 11px; font-weight: 800; color: var(--muted); display: block; margin-bottom: 10px; }
-        .pipe-card input { width: 100%; border: none; border-bottom: 1px solid #f0f0f0; font-family: 'DM Mono'; font-size: 14px; outline: none; margin-bottom: 10px; padding-bottom: 4px; }
-        .pipe-card .val-input { font-weight: 700; color: var(--accent); border-bottom: none; }
-
-        .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .rate-pill { background: #eeebff; border-radius: 10px; padding: 10px; text-align: center; font-size: 12px; color: var(--accent); font-weight: 700; border: 1px solid rgba(108,71,255,0.1); }
-        .rate-pill input { background: transparent; border: none; font-family: 'DM Mono'; width: 40px; text-align: center; color: var(--accent); font-weight: 800; outline: none; font-size: 14px; }
-
-        .tunnel-container { background: #fff; border-radius: 24px; padding: 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-top: 30px; }
-        svg { width: 100%; height: auto; }
-
-        .analysis-engine { 
-            background: #1a1440; color: #fff; border-radius: 24px; padding: 35px; margin-top: 30px; display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center;
-        }
-        .engine-display { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 30px; }
-        .engine-display .number { font-size: 64px; font-weight: 700; color: #f59e0b; line-height: 1; }
-        .engine-display .label { font-size: 11px; color: #a5a1ff; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 12px; font-weight: 700; }
-        .engine-text { font-size: 16px; line-height: 1.7; color: #e0dfff; }
-        .engine-text b { color: #f472b6; }
-        .engine-text .highlight-won { color: var(--won); font-weight: 700; }
-        .engine-text .tip { font-size: 13px; color: #a5a1ff; margin-top: 12px; font-style: italic; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>The Reality Check</h1>
-    </header>
-
-    <div class="top-grid">
-        <div class="input-card"><label>Propriétaire</label><input type="text" value="Ton petit nom"></div>
-        <div class="input-card"><label>Objectif Cible (€)</label><input type="number" id="obj" value="250000"></div>
-        <div class="input-card won-highlight"><label>Won à date (€)</label><input type="number" id="won-at-date" value="60000"></div>
-        <div class="input-card"><label>Panier Moyen (€)</label><input type="number" id="aov" value="20000"></div>
-    </div>
-
-    <label class="section-label">Décris-moi ton pipe actuellement :</label>
-    <div class="pipe-grid" id="pipe-inputs"></div>
-
-    <label class="section-label">Voici les taux de conversion moyens de l'équipe :</label>
-    <div class="rates-row" id="rates-inputs"></div>
-
-    <div class="tunnel-container">
-        <svg id="svg-tunnel" viewBox="0 0 800 480"></svg>
-    </div>
-
-    <div class="analysis-engine">
-        <div class="engine-display">
-            <div class="number" id="r0-gap">0</div>
-            <div class="label">Besoin en nouveaux R0</div>
-        </div>
-        <div class="engine-text" id="engine-msg">
-            Analyse de la trajectoire en cours...
-        </div>
+        <div class="engine-text" id="engine-msg">Analyse en cours...</div>
     </div>
 </div>
 
@@ -353,7 +160,7 @@
     const pipeGrid = document.getElementById('pipe-inputs');
     stages.forEach((s, i) => {
         pipeGrid.innerHTML += `
-            <div class="pipe-card" id="card-${i}">
+            <div class="pipe-card">
                 <div class="status-dot" id="dot-${i}"></div>
                 <label>${s.name}</label>
                 <input type="number" id="vol-${i}" value="${defaultVols[i]}" class="trigger">
@@ -367,244 +174,4 @@
     });
 
     function calculate() {
-        const obj = parseFloat(document.getElementById('obj').value) || 0;
-        const wonAtDate = parseFloat(document.getElementById('won-at-date').value) || 0;
-        const aov = parseFloat(document.getElementById('aov').value) || 1;
-        
-        const vols = stages.map((_, i) => parseFloat(document.getElementById(`vol-${i}`).value) || 0);
-        const vals = stages.map((_, i) => parseFloat(document.getElementById(`val-${i}`).value) || 0);
-        const rates = teamRates.map((_, i) => (parseFloat(document.getElementById(`r-${i}`).value) || 0) / 100);
-
-        let probToWon = new Array(5);
-        probToWon[4] = rates[4];
-        probToWon[3] = rates[3] * rates[4];
-        probToWon[2] = rates[2] * rates[3] * rates[4];
-        probToWon[1] = rates[1] * rates[2] * rates[3] * rates[4];
-        probToWon[0] = rates[0] * rates[1] * rates[2] * rates[3] * rates[4];
-
-        const projectedPipeValue = vals.reduce((acc, v, i) => acc + (v * probToWon[i]), 0);
-        const totalProjected = wonAtDate + projectedPipeValue;
-        const gap = Math.max(0, obj - totalProjected);
-        const neededR0 = Math.ceil(gap / (aov * probToWon[0]));
-
-        const svg = document.getElementById('svg-tunnel');
-        const W = 800; const slotH = 80; const gapSvg = 8;
-        let draw = `<rect width="800" height="480" fill="#ffffff" rx="20"/>`;
-
-        stages.forEach((s, i) => {
-            const y = 20 + i * (slotH + gapSvg);
-            const wTop = 660 - (660 - 320) * (i / 5);
-            const wBottom = 660 - (660 - 320) * ((i+1) / 5);
-            const xTop = (W - wTop) / 2;
-            const xBottom = (W - wBottom) / 2;
-            
-            draw += `<polygon points="${xTop},${y} ${xTop+wTop},${y} ${xBottom+wBottom},${y+slotH} ${xBottom},${y+slotH}" fill="${s.color}" />`;
-            const contrib = Math.round(vals[i] * probToWon[i]);
-            draw += `
-                <text x="${W/2}" y="${y + slotH/2 - 5}" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="500" fill="${s.txt}" opacity="0.8">${vols[i]} deals en ${s.id}</text>
-                <text x="${W/2}" y="${y + slotH/2 + 15}" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="700" fill="${s.txt}">PROJECTION : ${contrib.toLocaleString()} €</text>
-            `;
-
-            const stepDeficit = Math.ceil(gap / (aov * probToWon[i]));
-            const dot = document.getElementById(`dot-${i}`);
-            if (gap <= 0) {
-                dot.className = 'status-dot dot-green';
-            } else if (stepDeficit > 5) {
-                dot.className = 'status-dot dot-red';
-            } else {
-                dot.className = 'status-dot dot-orange';
-            }
-        });
-        svg.innerHTML = draw;
-
-        document.getElementById('r0-gap').innerText = neededR0;
-        const msg = document.getElementById('engine-msg');
-        
-        if (gap > 0) {
-            msg.innerHTML = `
-                Sur ton objectif de <b>${obj.toLocaleString()} €</b>, tu as sécurisé <b>${wonAtDate.toLocaleString()} €</b>. 
-                Ton pipeline actuel devrait projeter environ <b>${Math.round(projectedPipeValue).toLocaleString()} €</b>.<br><br>
-                Pour combler l'écart de <b>${Math.round(gap).toLocaleString()} €</b>, tu as deux leviers : injecter <b>${neededR0} nouveaux R0</b>, ou <b>optimiser ta transformation</b> sur tes étapes actuelles pour maximiser chaque opportunité.
-                <div class="tip">💡 Conseil : Si tu améliores tes taux de conversion (plus bas), ton besoin en nouveaux R0 diminuera mécaniquement !</div>
-            `;
-        } else {
-            msg.innerHTML = `
-                <span class="highlight-won">Trajectoire au vert !</span><br>
-                Avec tes <b>${wonAtDate.toLocaleString()} €</b> déjà gagnés et la projection de ton pipe (<b>${Math.round(projectedPipeValue).toLocaleString()} €</b>), tu es au-dessus de ta cible.<br>
-                Reste focus sur l'exécution pour sécuriser ces signatures.
-            `;
-        }
-    }
-
-    document.querySelectorAll('.trigger, input').forEach(el => el.addEventListener('input', calculate));
-    calculate();
-</script>
-</body>
-</html>            transition: all 0.4s ease;
-        }
-        .dot-green { background: #10b981; box-shadow: 0 0 12px #10b981; }
-        .dot-orange { background: #f59e0b; box-shadow: 0 0 12px #f59e0b; }
-        .dot-red { background: #ef4444; box-shadow: 0 0 12px #ef4444; }
-
-        .pipe-card label { font-size: 11px; font-weight: 800; color: var(--muted); display: block; margin-bottom: 10px; }
-        .pipe-card input { width: 100%; border: none; border-bottom: 1px solid #f0f0f0; font-family: 'DM Mono'; font-size: 14px; outline: none; margin-bottom: 10px; padding-bottom: 4px; }
-        .pipe-card .val-input { font-weight: 700; color: var(--accent); border-bottom: none; }
-
-        .rates-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .rate-pill { background: #eeebff; border-radius: 10px; padding: 10px; text-align: center; font-size: 12px; color: var(--accent); font-weight: 700; border: 1px solid rgba(108,71,255,0.1); }
-        .rate-pill input { background: transparent; border: none; font-family: 'DM Mono'; width: 40px; text-align: center; color: var(--accent); font-weight: 800; outline: none; font-size: 14px; }
-
-        .tunnel-container { background: #fff; border-radius: 24px; padding: 30px; box-shadow: 0 15px 50px rgba(0,0,0,0.05); border: 1px solid var(--border); margin-top: 30px; }
-        svg { width: 100%; height: auto; }
-
-        .analysis-engine { 
-            background: #1a1440; color: #fff; border-radius: 24px; padding: 35px; margin-top: 30px; display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center;
-        }
-        .engine-display { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .engine-display .number { font-size: 64px; font-weight: 700; color: #f59e0b; line-height: 1; }
-        .engine-display .label { font-size: 11px; color: #a5a1ff; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 12px; font-weight: 700; }
-        .engine-text { font-size: 16px; line-height: 1.7; color: #e0dfff; }
-        .engine-text b { color: #f472b6; }
-        .engine-text .highlight-won { color: var(--won); font-weight: 700; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>The Reality Check</h1>
-    </header>
-
-    <div class="top-grid">
-        <div class="input-card"><label>Propriétaire</label><input type="text" value="Ton petit nom"></div>
-        <div class="input-card"><label>Objectif Cible (€)</label><input type="number" id="obj" value="250000"></div>
-        <div class="input-card won-highlight"><label>Won à date (€)</label><input type="number" id="won-at-date" value="60000"></div>
-        <div class="input-card"><label>Panier Moyen (€)</label><input type="number" id="aov" value="20000"></div>
-    </div>
-
-    <label class="section-label">Décris-moi ton pipe actuellement :</label>
-    <div class="pipe-grid" id="pipe-inputs"></div>
-
-    <label class="section-label">Voici les taux de conversion moyens de l'équipe :</label>
-    <div class="rates-row" id="rates-inputs"></div>
-
-    <div class="tunnel-container">
-        <svg id="svg-tunnel" viewBox="0 0 800 480"></svg>
-    </div>
-
-    <div class="analysis-engine">
-        <div class="engine-display">
-            <div class="number" id="r0-gap">0</div>
-            <div class="label">Besoin en nouveaux R0</div>
-        </div>
-        <div class="engine-text" id="engine-msg">
-            Analyse de la trajectoire en cours...
-        </div>
-    </div>
-</div>
-
-<script>
-    const stages = [
-        { id: 'R0', name: 'R0 (Leads)', color: '#6c47ff', txt: '#fff' },
-        { id: 'R1', name: 'R1 (Qualif)', color: '#a855f7', txt: '#fff' },
-        { id: 'R2', name: 'R2 (SDR)', color: '#f472b6', txt: '#fff' },
-        { id: 'R3', name: 'R3 (Demo)', color: '#f59e0b', txt: '#1a1440' },
-        { id: 'R4', name: 'R4 (Offre)', color: '#3b82f6', txt: '#fff' }
-    ];
-
-    const defaultVols = [25, 15, 10, 6, 4];
-    const defaultVals = [500000, 300000, 200000, 120000, 80000];
-    const teamRates = [70, 65, 60, 55, 50]; 
-
-    const pipeGrid = document.getElementById('pipe-inputs');
-    stages.forEach((s, i) => {
-        pipeGrid.innerHTML += `
-            <div class="pipe-card" id="card-${i}">
-                <div class="status-dot" id="dot-${i}"></div>
-                <label>${s.name}</label>
-                <input type="number" id="vol-${i}" value="${defaultVols[i]}" class="trigger">
-                <input type="number" id="val-${i}" value="${defaultVals[i]}" class="trigger val-input">
-            </div>`;
-    });
-
-    const ratesRow = document.getElementById('rates-inputs');
-    teamRates.forEach((r, i) => {
-        ratesRow.innerHTML += `<div class="rate-pill">R${i}>${i < 4 ? 'R'+(i+1) : 'WON'} <input type="number" id="r-${i}" value="${r}" class="trigger">%</div>`;
-    });
-
-    function calculate() {
-        const obj = parseFloat(document.getElementById('obj').value) || 0;
-        const wonAtDate = parseFloat(document.getElementById('won-at-date').value) || 0;
-        const aov = parseFloat(document.getElementById('aov').value) || 1;
-        
-        const vols = stages.map((_, i) => parseFloat(document.getElementById(`vol-${i}`).value) || 0);
-        const vals = stages.map((_, i) => parseFloat(document.getElementById(`val-${i}`).value) || 0);
-        const rates = teamRates.map((_, i) => (parseFloat(document.getElementById(`r-${i}`).value) || 0) / 100);
-
-        let probToWon = new Array(5);
-        probToWon[4] = rates[4];
-        probToWon[3] = rates[3] * rates[4];
-        probToWon[2] = rates[2] * rates[3] * rates[4];
-        probToWon[1] = rates[1] * rates[2] * rates[3] * rates[4];
-        probToWon[0] = rates[0] * rates[1] * rates[2] * rates[3] * rates[4];
-
-        const projectedPipeValue = vals.reduce((acc, v, i) => acc + (v * probToWon[i]), 0);
-        const totalProjected = wonAtDate + projectedPipeValue;
-        const gap = Math.max(0, obj - totalProjected);
-        const neededR0 = Math.ceil(gap / (aov * probToWon[0]));
-
-        // Rendu SVG & Mise à jour des Glow Dots
-        const svg = document.getElementById('svg-tunnel');
-        const W = 800; const slotH = 80; const gapSvg = 8;
-        let draw = `<rect width="800" height="480" fill="#ffffff" rx="20"/>`;
-
-        stages.forEach((s, i) => {
-            const y = 20 + i * (slotH + gapSvg);
-            const wTop = 660 - (660 - 320) * (i / 5);
-            const wBottom = 660 - (660 - 320) * ((i+1) / 5);
-            const xTop = (W - wTop) / 2;
-            const xBottom = (W - wBottom) / 2;
-            
-            draw += `<polygon points="${xTop},${y} ${xTop+wTop},${y} ${xBottom+wBottom},${y+slotH} ${xBottom},${y+slotH}" fill="${s.color}" />`;
-            const contrib = Math.round(vals[i] * probToWon[i]);
-            draw += `
-                <text x="${W/2}" y="${y + slotH/2 - 5}" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="500" fill="${s.txt}" opacity="0.8">${vols[i]} deals en ${s.id}</text>
-                <text x="${W/2}" y="${y + slotH/2 + 15}" text-anchor="middle" font-family="DM Sans" font-size="14" font-weight="700" fill="${s.txt}">PROJECTION : ${contrib.toLocaleString()} €</text>
-            `;
-
-            // Logique de couleur des bulles Glow
-            const stepDeficit = Math.ceil(gap / (aov * probToWon[i]));
-            const dot = document.getElementById(`dot-${i}`);
-            if (gap <= 0) {
-                dot.className = 'status-dot dot-green';
-            } else if (stepDeficit > 5) {
-                dot.className = 'status-dot dot-red';
-            } else {
-                dot.className = 'status-dot dot-orange';
-            }
-        });
-        svg.innerHTML = draw;
-
-        document.getElementById('r0-gap').innerText = neededR0;
-        const msg = document.getElementById('engine-msg');
-        
-        if (gap > 0) {
-            msg.innerHTML = `
-                Sur ton objectif de <b>${obj.toLocaleString()} €</b>, tu as sécurisé <b>${wonAtDate.toLocaleString()} €</b>.<br>
-                Ton pipeline actuel, après passage de tes taux de conversion, devrait générer <b>${Math.round(projectedPipeValue).toLocaleString()} €</b>.<br><br>
-                Il te manque <b>${Math.round(gap).toLocaleString()} €</b> pour atteindre la cible. Comme on ne crée pas de R3 par magie, tu dois impérativement injecter <b>${neededR0} nouveaux R0</b> pour combler cet écart.
-            `;
-        } else {
-            msg.innerHTML = `
-                <span class="highlight-won">Trajectoire au vert !</span><br>
-                Avec tes <b>${wonAtDate.toLocaleString()} €</b> déjà gagnés et la projection de ton pipe (<b>${Math.round(projectedPipeValue).toLocaleString()} €</b>), tu es en avance sur ton objectif.<br>
-                Continue d'assurer l'exécution pour transformer ces probabilités en signatures réelles.
-            `;
-        }
-    }
-
-    document.querySelectorAll('.trigger, input').forEach(el => el.addEventListener('input', calculate));
-    calculate();
-</script>
-</body>
-</html>
+        const obj = parseFloat(document.getElementById('obj
